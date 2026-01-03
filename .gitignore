@@ -1,1 +1,11 @@
-*.exe
+# Ignore all directories and files by default
+# Explicitly include only the desired files and directories
+*
+# Include the specific scripts and same-name files
+!get_shortpath.ps1
+!cnv_heic2jpg.*
+!epubcheck_files.*
+!get_video_subtitles.*
+!hash2csv.*
+!README.md
+!icon_attribution.md

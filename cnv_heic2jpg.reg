@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\ConvertHEICtoJPG]
+@="Convert HEIC to JPG"
+"Icon"="C:\\bin\\cnv_heic2jpg.ico"
+
+[HKEY_CLASSES_ROOT\Directory\shell\ConvertHEICtoJPG\command]
+@="powershell.exe -WindowStyle Minimized -NoProfile -ExecutionPolicy Bypass -File \"C:\\bin\\cnv_heic2jpg.ps1\" \"%1\""

@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\GetHashes]
+@="Calculate Hashes"
+"Icon"="C:\\bin\\hash2csv.ico"
+
+[HKEY_CLASSES_ROOT\Directory\shell\GetHashes\command]
+@="powershell.exe -WindowStyle Minimized -NoProfile -ExecutionPolicy Bypass -File \"C:\\bin\\hash2csv.ps1\" \"%1\""
