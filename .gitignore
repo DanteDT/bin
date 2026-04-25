@@ -7,5 +7,6 @@
 !epubcheck_files.*
 !get_video_subtitles.*
 !hash2csv.*
+!wallpaper-info*.*
 !README.md
 !icon_attribution.md

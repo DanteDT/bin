@@ -1,0 +1,9 @@
+Windows Registry Editor Version 5.00
+; If Windows compresses and obfuscates location of orig photo, you will see "TranscodedWallpaper"
+;
+[HKEY_CLASSES_ROOT\DesktopBackground\Shell\LearnAboutPicture]
+@="Learn about this picture"
+"Icon"="imageres.dll,-81"
+
+[HKEY_CLASSES_ROOT\DesktopBackground\Shell\LearnAboutPicture\command]
+@="powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\\bin\\wallpaper-info.ps1"
