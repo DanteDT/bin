@@ -35,6 +35,7 @@ function Get-UrlPage {
 #   ...
 #   </div>
 # </div>
+#
 # Otherwise if title attribute is alphanumeric (no spaces), then fallback to the caption after the <img ...> like:
 # <div id="postid-\d+">
 #   <h2>
@@ -57,7 +58,7 @@ function Get-SpotlightTitleFromHtml {
     
     if (-not $Html) { return $null }
     
-    if ($Html -match '<h2[^>]*>.*?title="([^"]*?)"') {
+    if ($Html -match '<h2[^>]*>\s*<a[^<>]*?title="([^"]*?)"') {
         $title = $matches[1].Trim()
 
         # If first H2 Title is alphanumeric only, try to get caption after <img ...>
@@ -81,19 +82,47 @@ function Get-ImageHashInfo {
         [string]$Path
     )
 
-    # SHA256 is as reliable as any
-    $hash = Get-FileHash -Algorithm SHA256 -Path $Path
-    $surl = "$rurl/$($hash.Hash)"
+    $titl = $null
+    $ttl2 = $null
+
+    # first search attempt, first alphanum string from filename
+    $fname = Split-Path $Path -Leaf
+    $alphanum = ($fname -split '\W+')[0] # first alphanumeric part of filename
+    $surl = "$rurl/$alphanum"
+    Write-Host "Looking up alphanum from: $fname => alphanumeric: $alphanum ."
+
     $info = Get-UrlPage $surl
+    if ($info) {
+        $titl = $info.Links | Where-Object title | Select-Object -ExpandProperty title -ErrorAction Ignore
+        Write-Host "WSI title, from alphanum lookup: $titl ."
+    } else {
+        Write-Host "Failed to fetch $surl for alphanum lookup."
+    }
 
-    $titl = $info.Links | Where-Object title | Select-Object -ExpandProperty title -ErrorAction Ignore
-    Write-Host "WSI title, first: $titl ."
-
+    # second search attempt,SHA256 is as reliable as any
+    if (-not $titl) {
+        $hash = Get-FileHash -Algorithm SHA256 -Path $Path
+        $surl = "$rurl/$($hash.Hash)"
+        $info = Get-UrlPage $surl
+        if ($info) {
+            $titl = $info.Links | Where-Object title | Select-Object -ExpandProperty title -ErrorAction Ignore
+            Write-Host "WSI title, from SHA256 lookup: $titl ."
+        } else {
+            Write-Host "Failed to fetch $surl for SHA256 lookup."
+        }
+    } else {
+        Write-Host "Skipping SHA256 lookup since title already found from alphanum lookup."
+    }
+    
     $ttl2 = $null
     if ($info) {
         $ttl2 = Get-SpotlightTitleFromHtml $info.Content
-    }    
-    Write-Host "WSI title, alt: $ttl2 ."
+    }
+
+    Write-Host "Completed: $Path => SHA256: $($hash.Hash) ."
+    Write-Host ">>  WSI Title: $titl ."
+    Write-Host ">>  WSI Title, alt: $ttl2 ."
+    Write-Host "---------------------------------------------"
 
     return [PSCustomObject]@{
         FullName    = $Path
@@ -125,4 +154,7 @@ $allFiles = $paths | ForEach-Object { Get-ImageHashInfo -Path $_ }
 # Write out CSV
 $logFile = Join-Path $FolderPaths[0] "calculated_hashes.csv"
 $allFiles | Export-Csv -Path $logFile -NoTypeInformation -Encoding UTF8
-Write-Host "Saved: $logFile"
+Write-Host "Saved: $logFile ."
+Write-Host "Done."
+
+Pause
