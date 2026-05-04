@@ -1,12 +1,14 @@
 # Ignore all directories and files by default
 # Explicitly include only the desired files and directories
 *
+
 # Include the specific scripts and same-name files
-!get_shortpath.ps1
+!climber.ico
 !cnv_heic2jpg.*
 !epubcheck_files.*
+!get_shortpath.ps1
 !get_video_subtitles.*
 !hash2csv.*
+!icon_attribution.md
 !wallpaper-info*.*
 !README.md
-!icon_attribution.md
