@@ -1,8 +1,8 @@
 Windows Registry Editor Version 5.00
 
-[HKEY_CLASSES_ROOT\Directory\shell\GetSubtitles]
-@="Extract MKV Subtitles"
-"Icon"="C:\\bin\\get_video_subtitles.ico"
+[HKEY_CLASSES_ROOT\Directory\shell\MoveSubtitles]
+@="Move MKV Subtitles"
+"Icon"="C:\\bin\\move_video_subtitles.ico"
 
-[HKEY_CLASSES_ROOT\Directory\shell\GetSubtitles\command]
-@="powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\bin\\get_video_subtitles.ps1\" \"%1\""
+[HKEY_CLASSES_ROOT\Directory\shell\MoveSubtitles\command]
+@="powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\bin\\move_video_subtitles.ps1\" \"%1\""
