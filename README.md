@@ -131,10 +131,10 @@ Variation of GET_VIDEO_SUBTITLES. "MOVE" further removes the subtitles tracks fr
 + [MKVToolNix](https://mkvtoolnix.download/downloads.html#windows)
 
 #### Assets:
-+ [get_video_subtitles.ico](get_video_subtitles.ico), see [icon_attribution.md](icon_attribution.md).
-+ [get_video_subtitles.reg](get_video_subtitles.reg), to register the right-click folder option in the Win11 registry
++ [move_video_subtitles.ico](move_video_subtitles.ico), see [icon_attribution.md](icon_attribution.md).
++ [move_video_subtitles.reg](move_video_subtitles.reg), to register the right-click folder option in the Win11 registry
   + You can use the same command manually, from a terminal window
-+ [get_video_subtitles.ps1](get_video_subtitles.ps1), the powershell script
++ [move_video_subtitles.ps1](move_video_subtitles.ps1), the powershell script
 
 -----
 -----
