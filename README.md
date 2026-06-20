@@ -54,12 +54,13 @@ After I transfer HEIC photos from iOS to my Win11 laptop, I convert to JPG and t
 -----
 ### GET_VIDEO_SUBTITLES
 
-I like to subtitles my photo montages (videos), since that is more informative than memory : ) I containerize the videos and subtitles as MKV files. Then later I realize I want easy access to those logs of montage content. This script extracts them for all MKV files, recursively, in a folder.
+I like to subtitle my photo montages (videos), since that is more informative than memory : ) I containerize the videos and subtitles as MKV files. Then later I realize I want easy access to those logs of montaged content. This script extracts them for all MKV files, recursively, in a folder.
 
 #### What the script does:
 + From selected folder, scan recursively for MKV files
 + Use [MKVToolNix](https://mkvtoolnix.download/downloads.html#windows) to check for subtitle tracks
 + Extract and rename each subtitle track to match the name of the video
++ Store subtitles files in a `subtitles` subfolder
 + Log steps to `video_subtitles.log`
 
 #### Dependencies
@@ -112,6 +113,28 @@ You know that wallpaper picture that rotates onto your desktop? What is that?! N
 + [wallpaper-info-remove.reg](wallpaper-info-remove.reg), to DE-register the right-click folder option in the Win11 registry, so you can try something else
   + You can use the same command manually, from a terminal window
 + [wallpaper-info.ps1](wallpaper-info.ps1), the powershell script
+
+-----
+### MOVE_VIDEO_SUBTITLES
+
+Variation of GET_VIDEO_SUBTITLES. "MOVE" further removes the subtitles tracks from the MKV file. If they are external, then the subtitles in the container just cause confusion.
+
+#### What the script does:
++ From selected folder, scan recursively for MKV files
++ Use [MKVToolNix](https://mkvtoolnix.download/downloads.html#windows) to check for subtitle tracks
++ Extract and rename each subtitle track to match the name of the video
++ Store subtitles files in a `subtitles` subfolder
++ Remove subtitles tracks from the original MKV files
++ Log steps to `video_subtitles.log`
+
+#### Dependencies
++ [MKVToolNix](https://mkvtoolnix.download/downloads.html#windows)
+
+#### Assets:
++ [get_video_subtitles.ico](get_video_subtitles.ico), see [icon_attribution.md](icon_attribution.md).
++ [get_video_subtitles.reg](get_video_subtitles.reg), to register the right-click folder option in the Win11 registry
+  + You can use the same command manually, from a terminal window
++ [get_video_subtitles.ps1](get_video_subtitles.ps1), the powershell script
 
 -----
 -----

@@ -133,4 +133,35 @@ Get-ChildItem -Path $FolderPath -Filter *.mkv -File -Recurse | ForEach-Object {
     } catch {
         Log "  Exception: $_"
     }
+
+    try {
+        # If some subtitles tracks were extracted, replace original MKV with subtitle-free version.
+        if ($subtitleLines) {
+            $output = Join-Path $FolderPath "${base}.nosubs.mkv"
+            Log "  Creating new MKV without subtitles: ${output}"
+            & mkvmerge -o $output --no-subtitles $mkv 2>&1
+
+            # Check that the new MKV was created successfully and NEW/ORIG size ratio is >0.95 to avoid replacing with a broken file
+            $originalSize = (Get-Item $mkv).Length
+            $newSize = (Get-Item $output).Length
+            $sizeRatio = $newSize / $originalSize
+
+            Log "  Original MKV size: $originalSize bytes, New MKV size: $newSize bytes, Size ratio: $sizeRatio"
+
+            if (Test-Path $output) {
+
+                if ($sizeRatio -lt 9.6) {
+                    Remove-Item -Path $mkv -Force
+                    Rename-Item -Path $output -NewName $_.Name -Force
+                    Log "  Replaced original MKV with new one without subtitles: ${mkv}"
+                } else {
+                    Log "  WARNING: New MKV size is only ${sizeRatio} size of original. Keeping original: ${mkv}"
+                }
+            } else {
+                Log "  ERROR: Failed to create new MKV without subtitles for ${mkv}"
+            }
+        }
+    } catch {
+        Log "  Exception during MKV replacement: $_"
+    }
 }

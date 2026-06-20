@@ -19,3 +19,7 @@
 + Hash2Csv - SHA256
   + <img src="hash2csv.ico" width="32px"/>
     <a href="https://www.flaticon.com/free-icons/cryptography" title="cryptography icons">Cryptography icons created by Muhammad Atif - Flaticon</a>
+
++ Move Video Subtitles
+  + <img src="move_video_subtitles.ico" width="32px"/>
+    <a href="https://www.flaticon.com/free-icons/subtitle" title="subtitle icons">Subtitle icons created by Narasena studio - Flaticon</a>
