@@ -5,8 +5,9 @@ param(
     [string]$FolderPath
 )
 
-# Use full paths
-$FolderPath = (Resolve-Path $FolderPath).Path
+# Use full network path if the folder is on a network share, otherwise use local path.
+# Strip the Powershell prefix like "Microsoft.PowerShell.Core\FileSystem::" if found, to avoid issues with mkvmerge/mkvextract.
+$FolderPath = [System.IO.Path]::GetFullPath($FolderPath)
 
 # Log file
 $logFile = Join-Path $FolderPath "video_subtitles.log"
@@ -23,6 +24,9 @@ function Log {
 if (Test-Path $logFile) {
     Clear-Content -Path $logFile
 }
+
+Log "Usage, powershell -NoProfile -ExecutionPolicy Bypass -File <script-path> <mkv-path>"
+Log "Folder path: $FolderPath"
 
 # If subtitles subfolder does not exist, create it
 $subFolder = Join-Path $FolderPath "subtitles"
@@ -42,6 +46,7 @@ Get-ChildItem -Path $FolderPath -Filter *.mkv -File -Recurse | ForEach-Object {
     Log "Processing: $mkv"
     Log "  Folder path: $FolderPath"
     Log "  Extracting subtitles to: ""$subFolder"""
+    Log "  Base name: ""$base"""
 
     try {
         # Ask mkvmerge for track info (cleaner than mkvinfo)
