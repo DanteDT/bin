@@ -7,7 +7,7 @@
 !cnv_heic2jpg.*
 !epubcheck_files.*
 !get_shortpath.ps1
-!get_video_subtitles.*
+!extract_video_subtitles.*
 !hash2csv.*
 !icon_attribution.md
 !move_video_subtitles.*

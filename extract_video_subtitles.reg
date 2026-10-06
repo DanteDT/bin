@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\ExtractSubtitles]
+@="Extract MKV Subtitles"
+"Icon"="C:\\bin\\extract_video_subtitles.ico"
+
+[HKEY_CLASSES_ROOT\Directory\shell\ExtractSubtitles\command]
+@="powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\bin\\extract_video_subtitles.ps1\" \"%1\""

@@ -1,8 +1,10 @@
-# Usage
-# powershell -NoProfile -ExecutionPolicy Bypass -File "<script-path>" "<mkv-path>"
+# Usage of extract_video_subtitles.ps1 script to MOVE subtitles, rather than simply extract.
+# powershell -NoProfile -ExecutionPolicy Bypass -File "<script-path>" "<mkv-path>" -movesubtitles
+# -movesubtitles is optional, if specified the original MKV will be replaced with a new one without subtitles after extraction.
 
 param(
-    [string]$FolderPath
+    [string]$FolderPath,
+    [switch]$movesubtitles
 )
 
 # Use full network path if the folder is on a network share, otherwise use local path.
@@ -139,34 +141,39 @@ Get-ChildItem -Path $FolderPath -Filter *.mkv -File -Recurse | ForEach-Object {
         Log "  Exception: $_"
     }
 
-    try {
-        # If some subtitles tracks were extracted, replace original MKV with subtitle-free version.
-        if ($subtitleLines) {
-            $output = Join-Path $FolderPath "${base}.nosubs.mkv"
-            Log "  Creating new MKV without subtitles: ${output}"
-            & mkvmerge -o $output --no-subtitles $mkv 2>&1
+    # If some subtitles tracks were extracted, replace original MKV with subtitle-free version.
+    # Only do this if the command-line parameter -movesubtitles is specified, to avoid accidentally replacing the original MKV when the user only wants to extract subtitles.
+    if ($movesubtitles) {
 
-            # Check that the new MKV was created successfully and NEW/ORIG size ratio is >0.95 to avoid replacing with a broken file
-            $originalSize = (Get-Item $mkv).Length
-            $newSize = (Get-Item $output).Length
-            $sizeRatio = $newSize / $originalSize
+        try {
+            # If some subtitles tracks were extracted, replace original MKV with subtitle-free version.
+            if ($subtitleLines) {
+                $output = Join-Path $FolderPath "${base}.nosubs.mkv"
+                Log "  Creating new MKV without subtitles: ${output}"
+                & mkvmerge -o $output --no-subtitles $mkv 2>&1
 
-            Log "  Original MKV size: $originalSize bytes, New MKV size: $newSize bytes, Size ratio: $sizeRatio"
+                # Check that the new MKV was created successfully and NEW/ORIG size ratio is >0.95 to avoid replacing with a broken file
+                $originalSize = (Get-Item $mkv).Length
+                $newSize = (Get-Item $output).Length
+                $sizeRatio = $newSize / $originalSize
 
-            if (Test-Path $output) {
+                Log "  Original MKV size: $originalSize bytes, New MKV size: $newSize bytes, Size ratio: $sizeRatio"
 
-                if ($sizeRatio -lt 9.6) {
-                    Remove-Item -Path $mkv -Force
-                    Rename-Item -Path $output -NewName $_.Name -Force
-                    Log "  Replaced original MKV with new one without subtitles: ${mkv}"
+                if (Test-Path $output) {
+
+                    if ($sizeRatio -lt 9.6) {
+                        Remove-Item -Path $mkv -Force
+                        Rename-Item -Path $output -NewName $_.Name -Force
+                        Log "  Replaced original MKV with new one without subtitles: ${mkv}"
+                    } else {
+                        Log "  WARNING: New MKV size is only ${sizeRatio} size of original. Keeping original: ${mkv}"
+                    }
                 } else {
-                    Log "  WARNING: New MKV size is only ${sizeRatio} size of original. Keeping original: ${mkv}"
+                    Log "  ERROR: Failed to create new MKV without subtitles for ${mkv}"
                 }
-            } else {
-                Log "  ERROR: Failed to create new MKV without subtitles for ${mkv}"
             }
+        } catch {
+            Log "  Exception during MKV replacement: $_"
         }
-    } catch {
-        Log "  Exception during MKV replacement: $_"
     }
 }

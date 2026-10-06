@@ -5,4 +5,4 @@ Windows Registry Editor Version 5.00
 "Icon"="C:\\bin\\move_video_subtitles.ico"
 
 [HKEY_CLASSES_ROOT\Directory\shell\MoveSubtitles\command]
-@="powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\bin\\move_video_subtitles.ps1\" \"%1\""
+@="powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\bin\\extract_video_subtitles.ps1\" \"%1\" -movesubtitles"
