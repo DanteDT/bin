@@ -52,7 +52,7 @@ After I transfer HEIC photos from iOS to my Win11 laptop, I convert to JPG and t
 + [epubcheck_files.ps1](epubcheck_files.ps1), the powershell script
 
 -----
-### GET_VIDEO_SUBTITLES
+### EXTRACT_VIDEO_SUBTITLES
 
 I like to subtitle my photo montages (videos), since that is more informative than memory : ) I containerize the videos and subtitles as MKV files. Then later I realize I want easy access to those logs of montaged content. This script extracts them for all MKV files, recursively, in a folder.
 
@@ -67,10 +67,10 @@ I like to subtitle my photo montages (videos), since that is more informative th
 + [MKVToolNix](https://mkvtoolnix.download/downloads.html#windows)
 
 #### Assets:
-+ [get_video_subtitles.ico](get_video_subtitles.ico), see [icon_attribution.md](icon_attribution.md).
-+ [get_video_subtitles.reg](get_video_subtitles.reg), to register the right-click folder option in the Win11 registry
++ [extract_video_subtitles.ico](extract_video_subtitles.ico), see [icon_attribution.md](icon_attribution.md).
++ [extract_video_subtitles.reg](extract_video_subtitles.reg), to register the right-click folder option in the Win11 registry
   + You can use the same command manually, from a terminal window
-+ [get_video_subtitles.ps1](get_video_subtitles.ps1), the powershell script
++ [extract_video_subtitles.ps1](extract_video_subtitles.ps1), the powershell script
 
 -----
 ### HASH2CSV
@@ -117,7 +117,7 @@ You know that wallpaper picture that rotates onto your desktop? What is that?! N
 -----
 ### MOVE_VIDEO_SUBTITLES
 
-Variation of GET_VIDEO_SUBTITLES. "MOVE" further removes the subtitles tracks from the MKV file. If they are external, then the subtitles in the container just cause confusion.
+Variation of EXTRACT_VIDEO_SUBTITLES. "MOVE" further removes the subtitles tracks from the MKV file. If they are external, then the subtitles in the container just cause confusion.
 
 #### What the script does:
 + From selected folder, scan recursively for MKV files
@@ -134,7 +134,7 @@ Variation of GET_VIDEO_SUBTITLES. "MOVE" further removes the subtitles tracks fr
 + [move_video_subtitles.ico](move_video_subtitles.ico), see [icon_attribution.md](icon_attribution.md).
 + [move_video_subtitles.reg](move_video_subtitles.reg), to register the right-click folder option in the Win11 registry
   + You can use the same command manually, from a terminal window
-+ [move_video_subtitles.ps1](move_video_subtitles.ps1), the powershell script
++ [extract_video_subtitles.ps1](extract_video_subtitles.ps1), the powershell script with the option `-movesubtitles`
 
 -----
 -----
